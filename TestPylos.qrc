@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>R.png</file>
+        <file>TestPylosCanMove.png</file>
+        <file>TestPylosDoubleRemoveTest.png</file>
+        <file>TestPylosMoveMustRemove.png</file>
+        <file>TestPylosMustRemove.png</file>
+    </qresource>
+</RCC>
