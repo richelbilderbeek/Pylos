@@ -55,10 +55,6 @@ private slots:
 
 private:
   Ui::QtTestPylosMenuDialog *ui;
-
-  #ifndef NDEBUG
-  static void Test() noexcept;
-  #endif
 };
 
 } //~namespace pylos

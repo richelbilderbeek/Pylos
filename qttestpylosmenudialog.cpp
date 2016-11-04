@@ -30,8 +30,8 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qttestpylosgametestsdialog.h"
 #include "qttestpylosrandomplaydialog.h"
 #include "testpylosmenudialog.h"
-#include "testtimer.h"
-#include "trace.h"
+
+
 #include "ui_qttestpylosmenudialog.h"
 #pragma GCC diagnostic pop
 
@@ -39,15 +39,12 @@ ribi::pylos::QtTestPylosMenuDialog::QtTestPylosMenuDialog(QWidget *parent) :
     QtHideAndShowDialog(parent),
     ui(new Ui::QtTestPylosMenuDialog)
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
   ui->setupUi(this);
 }
 
 ribi::pylos::QtTestPylosMenuDialog::~QtTestPylosMenuDialog() noexcept
 {
-    delete ui;
+  delete ui;
 }
 
 void ribi::pylos::QtTestPylosMenuDialog::on_button_test_board_clicked()
@@ -85,14 +82,3 @@ void ribi::pylos::QtTestPylosMenuDialog::on_button_random_play_clicked()
   this->ShowChild(&d);
 }
 
-#ifndef NDEBUG
-void ribi::pylos::QtTestPylosMenuDialog::Test() noexcept
-{
-  {
-    static bool is_tested{false};
-    if (is_tested) return;
-    is_tested = true;
-  }
-  const TestTimer test_timer(__func__,__FILE__,1.0);
-}
-#endif

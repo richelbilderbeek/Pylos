@@ -1,17 +1,19 @@
-include(../../DesktopApplication.pri)
-include(../../Libraries/Boost.pri)
-include(../../Libraries/GeneralConsole.pri)
-include(../../Libraries/GeneralDesktop.pri)
+# Qt does not go well with -Weffc++
+include(../RibiLibraries/DesktopApplicationNoWeffcpp.pri)
+include(../RibiLibraries/Boost.pri)
 
-#Specific, console
-include(../../Classes/CppCanvas/CppCanvas.pri)
-include(../../Classes/CppDotMatrix/CppDotMatrix.pri)
-include(../../Classes/CppPylos/CppPylos.pri)
-include(../../Classes/CppTextCanvas/CppTextCanvas.pri)
+include(../RibiClasses/CppAbout/CppAbout.pri)
+include(../RibiClasses/CppFileIo/CppFileIo.pri)
+include(../RibiClasses/CppHelp/CppHelp.pri)
+include(../RibiClasses/CppMenuDialog/CppMenuDialog.pri)
 
-#Specific, desktop
-include(../../Classes/CppQtPylos/CppQtPylos.pri)
+include(../RibiLibraries/GeneralDesktop.pri)
 
-include(GamePylosDesktop.pri)
+include(../RibiClasses/CppCanvas/CppCanvas.pri)
+include(../DotMatrix/DotMatrix.pri)
+include(Pylos.pri)
+include(../RibiClasses/CppTextCanvas/CppTextCanvas.pri)
+include(PylosDesktop.pri)
+include(QtPylos.pri)
 
 SOURCES += qtmain.cpp

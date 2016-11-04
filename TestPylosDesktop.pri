@@ -1,22 +1,22 @@
-include(../TestPylos/TestPylosConsole.pri)
+include(TestPylosConsole.pri)
 
 FORMS += \
-    ../TestPylos/qttestpylostestgamedialog.ui \
-    ../TestPylos/qttestpylostestboarddialog.ui \
-    ../TestPylos/qttestpylosrandomplaydialog.ui \
-    ../TestPylos/qttestpylosmenudialog.ui \
-    ../TestPylos/qttestpylosgametestsdialog.ui
+    $$PWD/qttestpylostestgamedialog.ui \
+    $$PWD/qttestpylostestboarddialog.ui \
+    $$PWD/qttestpylosrandomplaydialog.ui \
+    $$PWD/qttestpylosmenudialog.ui \
+    $$PWD/qttestpylosgametestsdialog.ui
 
 SOURCES += \
-    ../TestPylos/qttestpylostestgamedialog.cpp \
-    ../TestPylos/qttestpylostestboarddialog.cpp \
-    ../TestPylos/qttestpylosrandomplaydialog.cpp \
-    ../TestPylos/qttestpylosmenudialog.cpp \
-    ../TestPylos/qttestpylosgametestsdialog.cpp
+    $$PWD/qttestpylostestgamedialog.cpp \
+    $$PWD/qttestpylostestboarddialog.cpp \
+    $$PWD/qttestpylosrandomplaydialog.cpp \
+    $$PWD/qttestpylosmenudialog.cpp \
+    $$PWD/qttestpylosgametestsdialog.cpp
 
 HEADERS += \
-    ../TestPylos/qttestpylostestgamedialog.h \
-    ../TestPylos/qttestpylostestboarddialog.h \
-    ../TestPylos/qttestpylosrandomplaydialog.h \
-    ../TestPylos/qttestpylosmenudialog.h \
-    ../TestPylos/qttestpylosgametestsdialog.h
+    $$PWD/qttestpylostestgamedialog.h \
+    $$PWD/qttestpylostestboarddialog.h \
+    $$PWD/qttestpylosrandomplaydialog.h \
+    $$PWD/qttestpylosmenudialog.h \
+    $$PWD/qttestpylosgametestsdialog.h

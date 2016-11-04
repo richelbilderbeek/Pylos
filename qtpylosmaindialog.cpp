@@ -32,10 +32,10 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include "pylosgame.h"
 #include "qtpylosgamewidget.h"
-#include "testtimer.h"
+
 #include "qtpyloswondialog.h"
 #include "ui_qtpylosmaindialog.h"
-#include "trace.h"
+
 #pragma GCC diagnostic pop
 
 ribi::pylos::QtPylosMainDialog::QtPylosMainDialog(
@@ -127,7 +127,6 @@ void ribi::pylos::QtPylosMainDialog::Test() noexcept
     if (is_tested) return;
     is_tested = true;
   }
-  const TestTimer test_timer(__func__,__FILE__,1.0);
   #ifdef FIX_ISSUE_234
   const boost::shared_ptr<QtPylosGameWidget> p{new QtPylosGameWidget};
   assert(p);

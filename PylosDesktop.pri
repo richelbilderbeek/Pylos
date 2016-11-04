@@ -1,21 +1,21 @@
-include(../../Games/GamePylos/GamePylosConsole.pri)
+include(PylosConsole.pri)
 
 SOURCES += \
-    ../../Games/GamePylos/qtpyloswondialog.cpp \
-    ../../Games/GamePylos/qtpylosmenudialog.cpp \
-    ../../Games/GamePylos/qtpylosmaindialog.cpp \
-    ../../Games/GamePylos/qtpylosinstructionsdialog.cpp
+    $$PWD/qtpyloswondialog.cpp \
+    $$PWD/qtpylosmenudialog.cpp \
+    $$PWD/qtpylosmaindialog.cpp \
+    $$PWD/qtpylosinstructionsdialog.cpp
 
 HEADERS  += \
-    ../../Games/GamePylos/qtpyloswondialog.h \
-    ../../Games/GamePylos/qtpylosmenudialog.h \
-    ../../Games/GamePylos/qtpylosmaindialog.h \
-    ../../Games/GamePylos/qtpylosinstructionsdialog.h
+    $$PWD/qtpyloswondialog.h \
+    $$PWD/qtpylosmenudialog.h \
+    $$PWD/qtpylosmaindialog.h \
+    $$PWD/qtpylosinstructionsdialog.h
 
 
 FORMS += \
-    ../../Games/GamePylos/qtpyloswondialog.ui \
-    ../../Games/GamePylos/qtpylosmenudialog.ui \
-    ../../Games/GamePylos/qtpylosmaindialog.ui \
-    ../../Games/GamePylos/qtpylosinstructionsdialog.ui
+    $$PWD/qtpyloswondialog.ui \
+    $$PWD/qtpylosmenudialog.ui \
+    $$PWD/qtpylosmaindialog.ui \
+    $$PWD/qtpylosinstructionsdialog.ui
 

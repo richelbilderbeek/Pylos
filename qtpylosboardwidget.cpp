@@ -35,7 +35,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "pylosmove.h"
 #include "pylosmustremovestate.h"
 #include "pylosplayer.h"
-#include "trace.h"
+
 
 #pragma GCC diagnostic pop
 

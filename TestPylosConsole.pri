@@ -1,11 +1,11 @@
 INCLUDEPATH += \
-    ../TestPylos
+    ../Pylos
 
 SOURCES += \
-    ../TestPylos/testpylosmenudialog.cpp
+    $$PWD/testpylosmenudialog.cpp
 
 HEADERS += \
-    ../TestPylos/testpylosmenudialog.h
+    $$PWD/testpylosmenudialog.h
 
 RESOURCES += \
-    ../TestPylos/TestPylos.qrc
+    $$PWD/TestPylos.qrc
