@@ -22,12 +22,13 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include "pylosmove.h"
 
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 
 #include "pyloscoordinat.h"
-#include "testtimer.h"
-#include "trace.h"
+
+
 
 
 ribi::pylos::Move::Move()
@@ -62,14 +63,6 @@ ribi::pylos::Move::Move(const std::string& s)
 {
   #ifndef NDEBUG
   Test();
-  #endif
-
-  #ifndef NDEBUG
-  if (!(
-       s.size() == 7
-    || s.size() == 16
-    || s.size() == 25
-    || s.size() == 34)) TRACE(s);
   #endif
 
   //Read first coordinat
@@ -144,7 +137,6 @@ void ribi::pylos::Move::Test() noexcept
   {
     Coordinat(0,0,0);
   }
-  const TestTimer test_timer(__func__,__FILE__,1.0);
   {
     pylos::Move m;
     assert(!m.IsValid() && "An empty move is invalid");
@@ -176,7 +168,6 @@ void ribi::pylos::Move::Test() noexcept
         }
         catch (std::exception& e)
         {
-          TRACE(s);
           assert(!"Should not get here");
         }
       }
@@ -187,10 +178,6 @@ void ribi::pylos::Move::Test() noexcept
 
 std::string ribi::pylos::Move::ToStr() const noexcept
 {
-  #ifndef NDEBUG
-  if (!(m_move.size() == 1 || m_move.size() == 2)) TRACE(m_move.size());
-
-  #endif
   assert(m_move.size() == 1 || m_move.size() == 2);
 
   std::string s = m_move[0].ToStr();

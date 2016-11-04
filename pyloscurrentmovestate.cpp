@@ -24,8 +24,8 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include <cassert>
 
-#include "testtimer.h"
-#include "trace.h"
+
+
 
 #pragma GCC diagnostic pop
 
@@ -131,10 +131,7 @@ void ribi::pylos::CurrentMoveState::Test() noexcept
     if (tested) return;
     tested = true;
   }
-  const TestTimer test_timer(__func__,__FILE__,1.0);
-  const bool verbose{false};
-
-  if (verbose) { TRACE("Test PylosCurrentMoveState"); }
+  //if (verbose) { TRACE("Test PylosCurrentMoveState"); }
   {
     const Coordinat c(0,1,1);
     pylos::CurrentMoveState s;

@@ -29,9 +29,6 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include <boost/lexical_cast.hpp>
 #include <boost/numeric/conversion/cast.hpp>
 
-#include "testtimer.h"
-#include "trace.h"
-
 #pragma GCC diagnostic pop
 
 ribi::pylos::Coordinat::Coordinat(
@@ -57,9 +54,6 @@ ribi::pylos::Coordinat::Coordinat(const std::string& s)
   Test();
   #endif
   assert(s.size() == 7);
-  #ifndef DEBUG
-  if (!IsValid(m_layer,m_x,m_y)) { TRACE(s); }
-  #endif
   assert(IsValid(m_layer,m_x,m_y));
 }
 
@@ -242,10 +236,8 @@ void ribi::pylos::Coordinat::Test() noexcept
     if (tested) return;
     tested = true;
   }
-  const TestTimer test_timer(__func__,__FILE__,1.0);
-  const bool verbose{false};
 
-  if (verbose) { TRACE("Test PylosCoordinat operators"); }
+  //if (verbose) { TRACE("Test PylosCoordinat operators"); }
   {
     const Coordinat c1(0,2,2);
     const Coordinat c2(0,2,3);
@@ -256,7 +248,7 @@ void ribi::pylos::Coordinat::Test() noexcept
     assert(c1 == c1_too);
     assert(c2 != c3);
   }
-  if (verbose) { TRACE("Test Coordinat GetBelow function on (1,0,1)"); }
+  //if (verbose) { TRACE("Test Coordinat GetBelow function on (1,0,1)"); }
   {
     const std::vector<Coordinat> v
       = GetBelow(Coordinat(1,0,1));
@@ -270,7 +262,7 @@ void ribi::pylos::Coordinat::Test() noexcept
     assert(std::find(v.begin(),v.end(),Coordinat(0,1,2))
       != v.end());
   }
-  if (verbose) { TRACE("Test Coordinat GetBelow function on (1,0,2)"); }
+  //if (verbose) { TRACE("Test Coordinat GetBelow function on (1,0,2)"); }
   {
     const std::vector<Coordinat> v
       = GetBelow(Coordinat(1,0,2));
@@ -284,7 +276,7 @@ void ribi::pylos::Coordinat::Test() noexcept
     assert(std::find(v.begin(),v.end(),Coordinat(0,1,3))
       != v.end());
   }
-  if (verbose) { TRACE("Test Coordinat GetAbove function on (0,0,0)"); }
+  //if (verbose) { TRACE("Test Coordinat GetAbove function on (0,0,0)"); }
   {
     const std::vector<Coordinat> v
       = GetAbove(Coordinat(0,0,0));
@@ -292,7 +284,7 @@ void ribi::pylos::Coordinat::Test() noexcept
     assert(std::find(v.begin(),v.end(),Coordinat(1,0,0))
       != v.end());
   }
-  if (verbose) { TRACE("Test Coordinat GetAbove function on (0,1,2)"); }
+  //if (verbose) { TRACE("Test Coordinat GetAbove function on (0,1,2)"); }
   {
     const std::vector<Coordinat> v
       = GetAbove(Coordinat(0,1,2));
@@ -306,7 +298,7 @@ void ribi::pylos::Coordinat::Test() noexcept
     assert(std::find(v.begin(),v.end(),Coordinat(1,1,2))
       != v.end());
   }
-  if (verbose) { TRACE("Test Coordinat GetAbove function on (1,2,1)"); }
+  //if (verbose) { TRACE("Test Coordinat GetAbove function on (1,2,1)"); }
   {
     const std::vector<Coordinat> v
       = GetAbove(Coordinat(1,2,1));
@@ -316,7 +308,7 @@ void ribi::pylos::Coordinat::Test() noexcept
     assert(std::find(v.begin(),v.end(),Coordinat(2,1,1))
       != v.end());
   }
-  if (verbose) { TRACE("Test Coordinat GetAbove function on (2,0,0)"); }
+  //if (verbose) { TRACE("Test Coordinat GetAbove function on (2,0,0)"); }
   {
     const std::vector<Coordinat> v
       = GetAbove(Coordinat(2,0,0));

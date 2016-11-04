@@ -32,9 +32,9 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include "pylosboard.h"
 #include "pyloscurrentmovestate.h"
-#include "testtimer.h"
+
 #include "pylosmove.h"
-#include "trace.h"
+
 
 #pragma GCC diagnostic pop
 
@@ -115,9 +115,6 @@ bool ribi::pylos::Game::CanTransfer(const Coordinat& from,
 
 void ribi::pylos::Game::Do(const std::string& s)
 {
-  #ifndef NDEBUG
-  if (!CanDo(s)) TRACE(s);
-  #endif
   assert(CanDo(s));
   Do(pylos::Move(s));
 }
@@ -290,9 +287,6 @@ void ribi::pylos::Game::Remove(const std::vector<Coordinat>& v)
 
 void ribi::pylos::Game::Set(const Coordinat& c)
 {
-  #ifndef NDEBUG
-  if (!CanSet(c)) TRACE(c);
-  #endif
   //Set is always done as the first part of a Move
   assert(CanSet(c));
 
@@ -325,11 +319,9 @@ void ribi::pylos::Game::Test() noexcept
     if (tested) return;
     tested = true;
   }
-  const TestTimer test_timer(__func__,__FILE__,1.0);
-  const bool verbose{false};
   const int testing_depth = 1;
 
-  if (verbose) { TRACE("Test ribi::pylos::Game::operator== for different game types"); }
+  //if (verbose) { TRACE("Test ribi::pylos::Game::operator== for different game types"); }
   {
     boost::shared_ptr<Game> a = CreateAdvancedGame();
     boost::shared_ptr<Game> b = CreateBasicGame();
@@ -339,7 +331,7 @@ void ribi::pylos::Game::Test() noexcept
     b->Do("(0,0,0)");
     assert(*a != *b);
   }
-  if (verbose) { TRACE("Test ribi::pylos::Game::operator== for same game types"); }
+  //if (verbose) { TRACE("Test ribi::pylos::Game::operator== for same game types"); }
   {
     boost::shared_ptr<Game> a = CreateAdvancedGame();
     boost::shared_ptr<Game> b = CreateAdvancedGame();
@@ -349,7 +341,7 @@ void ribi::pylos::Game::Test() noexcept
     b->Do("(0,0,0)");
     assert(*a == *b);
   }
-  if (verbose) { TRACE("Test basic Game dynamics using Set and Remove"); }
+  //if (verbose) { TRACE("Test basic Game dynamics using Set and Remove"); }
   {
     // 1
     // 1
@@ -435,7 +427,7 @@ void ribi::pylos::Game::Test() noexcept
     assert(a->GetCurrentTurn() == Player::player1);
     assert(b->GetCurrentTurn() == Player::player1);
   }
-  if (verbose) { TRACE("Test ribi::pylos::Game::Clone of GameBasic"); }
+  //if (verbose) { TRACE("Test ribi::pylos::Game::Clone of GameBasic"); }
   {
     boost::shared_ptr<Game> a = CreateBasicGame();
     boost::shared_ptr<Game> b(new Game(*a));
@@ -452,7 +444,7 @@ void ribi::pylos::Game::Test() noexcept
     assert(*a != *c);
     assert(*b != *c);
   }
-  if (verbose) { TRACE("Test ribi::pylos::Game::Clone of GameAdvanced"); }
+  //if (verbose) { TRACE("Test ribi::pylos::Game::Clone of GameAdvanced"); }
   {
     boost::shared_ptr<Game> a = CreateAdvancedGame();
     boost::shared_ptr<Game> b(new Game(*a));
@@ -466,7 +458,7 @@ void ribi::pylos::Game::Test() noexcept
     assert(*a == *b);
     assert(*a != *c);
   }
-  if (verbose) { TRACE("Test Clone of played GameBasic"); }
+  //if (verbose) { TRACE("Test Clone of played GameBasic"); }
   {
     boost::shared_ptr<Game> a = CreateBasicGame();
     a->Set(Coordinat("(0,0,0)"));
@@ -475,7 +467,7 @@ void ribi::pylos::Game::Test() noexcept
     b->Set(Coordinat("(0,1,0)"));
     assert(*a != *b);
   }
-  if (verbose) { TRACE("Test Clone of played BoardAdvanced"); }
+  //if (verbose) { TRACE("Test Clone of played BoardAdvanced"); }
   {
     const boost::shared_ptr<Game> a = CreateAdvancedGame();
     a->Set(Coordinat("(0,0,0)"));
@@ -484,7 +476,7 @@ void ribi::pylos::Game::Test() noexcept
     b->Set(Coordinat("(0,1,0)"));
     assert(*a != *b);
   }
-  if (verbose) { TRACE("Test basic Game dynamics using full moves"); }
+  //if (verbose) { TRACE("Test basic Game dynamics using full moves"); }
   {
     // 1
     // 1
@@ -606,7 +598,7 @@ void ribi::pylos::Game::Test() noexcept
   }
 
 
-  if (verbose) { TRACE("Test Game history"); }
+  //if (verbose) { TRACE("Test Game history"); }
   {
     // 12..
     // 34..
@@ -638,7 +630,7 @@ void ribi::pylos::Game::Test() noexcept
   }
 
 
-  if (verbose) { TRACE("Game test #1"); }
+  //if (verbose) { TRACE("Game test #1"); }
   {
     // 12..
     // 34..
@@ -663,7 +655,7 @@ void ribi::pylos::Game::Test() noexcept
     assert( a->CanDo(Move("(0,0,3) !(0,0,3)"))); //7
     assert( b->CanDo(Move("(0,0,3)")));
   }
-  if (verbose) { TRACE("Game test #2"); }
+  //if (verbose) { TRACE("Game test #2"); }
   {
     // ....
     // ....
@@ -681,10 +673,6 @@ void ribi::pylos::Game::Test() noexcept
     std::for_each(v.begin(),v.end(),
       [a,b](const Move& m)
       {
-        #ifndef NDEBUG
-        if (!a->CanDo(m)) TRACE(m);
-        if (!b->CanDo(m)) TRACE(m);
-        #endif
         assert(a->CanDo(m));
         assert(b->CanDo(m));
         a->Do(m);
@@ -711,17 +699,17 @@ void ribi::pylos::Game::Test() noexcept
   }
   if (testing_depth < 2) return;
 
-  if (verbose) { TRACE("Playing 5 random basic Pylos games"); }
+  //if (verbose) { TRACE("Playing 5 random basic Pylos games"); }
   for (int i=0; i!=5; ++i)
   {
     ribi::pylos::Game::PlayRandomGame(pylos::Board::CreateBasicBoard());
   }
-  if (verbose) { TRACE("Playing 5 random advanced Pylos games"); }
+  //if (verbose) { TRACE("Playing 5 random advanced Pylos games"); }
   for (int i=0; i!=5; ++i)
   {
     ribi::pylos::Game::PlayRandomGame(pylos::Board::CreateAdvancedBoard());
   }
-  if (verbose) { TRACE("Playing 5 random Pylos games"); }
+  //if (verbose) { TRACE("Playing 5 random Pylos games"); }
   for (int i=0; i!=5; ++i)
   {
     ribi::pylos::Game::PlayRandomGame();

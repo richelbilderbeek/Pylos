@@ -32,16 +32,13 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "pylosgame.h"
 #include "pylosmove.h"
 #include "pylosplayer.h"
-#include "richelbilderbeekprogram.h"
-#include "testtimer.h"
+
 #include "textcanvas.h"
-#include "trace.h"
+
 
 ribi::pylos::MenuDialog::MenuDialog() noexcept
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
+
 }
 
 
@@ -81,7 +78,6 @@ ribi::About ribi::pylos::MenuDialog::GetAbout() const noexcept
   a.AddLibrary("pylos::Game version: " + pylos::Game::GetVersion());
   a.AddLibrary("pylos::Move version: " + pylos::Move::GetVersion());
   a.AddLibrary("Canvas version: " + Canvas::GetVersion());
-  a.AddLibrary("TestTimer version: " + TestTimer::GetVersion());
   a.AddLibrary("TextCanvas version: " + TextCanvas::GetVersion());
   return a;
 }
@@ -100,15 +96,6 @@ ribi::Help ribi::pylos::MenuDialog::GetHelp() const noexcept
   );
 }
 
-boost::shared_ptr<const ribi::Program> ribi::pylos::MenuDialog::GetProgram() const noexcept
-{
-  const boost::shared_ptr<const ribi::Program> p {
-    new ProgramPylos
-  };
-  assert(p);
-  return p;
-}
-
 std::string ribi::pylos::MenuDialog::GetVersion() const noexcept
 {
   return "2.1";
@@ -123,37 +110,3 @@ std::vector<std::string> ribi::pylos::MenuDialog::GetVersionHistory() const noex
   };
 }
 
-#ifndef NDEBUG
-void ribi::pylos::MenuDialog::Test() noexcept
-{
-  {
-    static bool is_tested{false};
-    if (is_tested) return;
-    is_tested = true;
-  }
-  {
-    Coordinat(0,0,0);
-    const boost::shared_ptr<Board> a(
-      new BoardAdvanced
-    );
-    assert(a);
-    const boost::shared_ptr<Board> b(
-      new BoardBasic
-    );
-    assert(b);
-    {
-      boost::shared_ptr<CurrentMoveState>(new CurrentMoveState);
-    }
-    const boost::shared_ptr<Game> g_a(
-      new Game(a)
-    );
-    assert(g_a);
-    const boost::shared_ptr<Game> g_b(
-      new Game(b)
-    );
-    assert(g_b);
-    Move();
-  }
-  const TestTimer test_timer(__func__,__FILE__,1.0);
-}
-#endif
