@@ -55,8 +55,6 @@ script:
   - ./TestPylosDesktop &
   - sleep 10
   - sudo killall TestPylosDesktop
-
-
   # Get code coverage
   - ./get_code_cov > /dev/null
   - codecov > /dev/null
