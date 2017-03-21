@@ -10,7 +10,6 @@
 #include "pylosmove.h"
 
 #include "qttestpylosmenudialog.h"
-#include "trace.h"
 #pragma GCC diagnostic pop
 
 ///TODO
@@ -20,7 +19,6 @@
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
-  START_TRACE();
   ribi::pylos::QtTestPylosMenuDialog w;
   w.show();
   return a.exec();

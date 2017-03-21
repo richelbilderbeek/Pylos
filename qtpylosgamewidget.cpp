@@ -41,7 +41,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #pragma GCC diagnostic pop
 
 ribi::pylos::QtPylosGameWidget::QtPylosGameWidget() :
-    m_pylos(pylos::Game::CreateBasicGame())
+    m_pylos(CreateBasicGame())
 {
 
 }
@@ -126,7 +126,7 @@ void ribi::pylos::QtPylosGameWidget::Set(const pylos::Coordinat& c)
 
 void ribi::pylos::QtPylosGameWidget::StartAdvanced()
 {
-  m_pylos = pylos::Game::CreateAdvancedGame();
+  m_pylos = CreateAdvancedGame();
   m_select = pylos::Coordinat(0,0,0);
   m_other_selectors = std::vector<pylos::Coordinat>();
   repaint();
@@ -134,7 +134,7 @@ void ribi::pylos::QtPylosGameWidget::StartAdvanced()
 
 void ribi::pylos::QtPylosGameWidget::StartBasic()
 {
-  m_pylos = pylos::Game::CreateBasicGame();
+  m_pylos = CreateBasicGame();
   m_select = pylos::Coordinat(0,0,0);
   m_other_selectors = std::vector<pylos::Coordinat>();
   repaint();

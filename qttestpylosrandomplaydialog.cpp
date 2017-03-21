@@ -46,8 +46,8 @@ ribi::pylos::QtTestPylosRandomPlayDialog::~QtTestPylosRandomPlayDialog() noexcep
 void ribi::pylos::QtTestPylosRandomPlayDialog::on_button_start_clicked()
 {
   const boost::shared_ptr<Board> board = (ui->radio_advanced->isChecked()
-    ? Board::CreateAdvancedBoard()
-    : Board::CreateBasicBoard() );
+    ? CreateAdvancedBoard()
+    : CreateBasicBoard() );
 
   int won1 = 0;
   int won2 = 0;
@@ -59,7 +59,7 @@ void ribi::pylos::QtTestPylosRandomPlayDialog::on_button_start_clicked()
 
   for (int i=0; i!=max; ++i)
   {
-    const Winner winner = Game::PlayRandomGame(board);
+    const Winner winner = PlayRandomGame(board);
     if (winner == Winner::player1) ++won1; else ++won2;
     ui->bar_progress->setValue(i);
     ui->bar_won_player1->setValue(

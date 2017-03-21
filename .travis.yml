@@ -35,12 +35,28 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 script: 
+  # Console test
+  - qmake -qt=qt5 PylosConsoleTest.pro
+  - make debug  
+  - ./PylosConsoleTest
+  # Console
   - qmake -qt=qt5 PylosConsole.pro
   - make debug  
-  - ./PylosConsole
+  - ./PylosConsole &
+  # Desktop
   - qmake -qt=qt5 PylosDesktop.pro
   - make debug  
-  #- ./PylosDesktop
+  - ./PylosDesktop &
+  - sleep 10
+  - sudo killall PylosDesktop
+  # Desktop test
+  - qmake -qt=qt5 TestPylosDesktop.pro
+  - make debug  
+  - ./TestPylosDesktop &
+  - sleep 10
+  - sudo killall TestPylosDesktop
+
+
   # Get code coverage
   - ./get_code_cov > /dev/null
   - codecov > /dev/null

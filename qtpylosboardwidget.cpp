@@ -132,7 +132,7 @@ void ribi::pylos::QtPylosBoardWidget::SetPlayer(const pylos::Player player)
 
 void ribi::pylos::QtPylosBoardWidget::StartAdvanced()
 {
-  m_board = pylos::Board::CreateAdvancedBoard();
+  m_board = CreateAdvancedBoard();
   m_select = pylos::Coordinat(0,0,0);
   m_other_selectors = std::vector<pylos::Coordinat>();
   repaint();
@@ -140,7 +140,7 @@ void ribi::pylos::QtPylosBoardWidget::StartAdvanced()
 
 void ribi::pylos::QtPylosBoardWidget::StartBasic()
 {
-  m_board = pylos::Board::CreateBasicBoard();
+  m_board = CreateBasicBoard();
   m_select = pylos::Coordinat(0,0,0);
   m_other_selectors = std::vector<pylos::Coordinat>();
   repaint();
