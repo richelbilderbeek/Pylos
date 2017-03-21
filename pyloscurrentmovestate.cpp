@@ -1,31 +1,9 @@
-//---------------------------------------------------------------------------
-/*
-pylos::CurrentMoveState, Pylos/Phyraos current move state class
-Copyright (C) 2010-2015 Richel Bilderbeek
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.If not, see <http://www.gnu.org/licenses/>.
-*/
-//---------------------------------------------------------------------------
-//From http://www.richelbilderbeek.nl/CppPylos.htm
-//---------------------------------------------------------------------------
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #include "pyloscurrentmovestate.h"
 
 #include <cassert>
-
-
-
+#include <iostream>
 
 #pragma GCC diagnostic pop
 
@@ -33,12 +11,7 @@ ribi::pylos::CurrentMoveState::CurrentMoveState() noexcept
   : m_current_move{},
     m_must_remove(MustRemoveState::no)
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
-
   assert(IsMoveUnknown());
-  //assert(IsRemoveUnknown());
 }
 
 std::string ribi::pylos::CurrentMoveState::GetVersion() noexcept
@@ -123,35 +96,18 @@ void ribi::pylos::CurrentMoveState::SetRemove(const std::vector<Coordinat>& v)
   m_current_move.m_remove = v;
 }
 
-#ifndef NDEBUG
-void ribi::pylos::CurrentMoveState::Test() noexcept
-{
-  {
-    static bool tested = false;
-    if (tested) return;
-    tested = true;
-  }
-  //if (verbose) { TRACE("Test PylosCurrentMoveState"); }
-  {
-    const Coordinat c(0,1,1);
-    pylos::CurrentMoveState s;
-    assert(s.IsMoveUnknown());
-    assert(!s.GetMustRemove());
-    s.SetMoveSet(c);
-    assert(!s.IsMoveUnknown());
-    const pylos::Move m = s.GetMove();
-    assert(m.m_move.size() == 1);
-    assert(m.m_move[0] == c);
-    assert(m.m_remove.empty());
-    s.Restart();
-    pylos::CurrentMoveState t;
-    assert(s == t);
-  }
-}
-#endif
-
 bool ribi::pylos::operator==(const CurrentMoveState& lhs, const CurrentMoveState& rhs) noexcept
 {
   return lhs.GetMustRemove() == rhs.GetMustRemove()
     && lhs.GetMove() == rhs.GetMove();
+}
+
+std::ostream& ribi::pylos::operator<<(std::ostream& os, const CurrentMoveState& s) noexcept
+{
+  os
+    << "move: " << s.GetMove() << '\n'
+    << "must_remove: " << s.GetMustRemove()
+  ;
+  return os;
+
 }

@@ -1,33 +1,10 @@
-//---------------------------------------------------------------------------
-/*
-pylos::MustRemoveState, Pylos enum class for the state of a removal
-Copyright (C) 2010-2015 Richel Bilderbeek
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.If not, see <http://www.gnu.org/licenses/>.
-*/
-//---------------------------------------------------------------------------
-//From http://www.richelbilderbeek.nl/CppPylos.htm
-//---------------------------------------------------------------------------
-
-
 #include "pylosmustremovestate.h"
 
 #include <cassert>
+#include <iostream>
 #include <stdexcept>
 
 #include "pylosplayer.h"
-
-
 
 ribi::pylos::MustRemoveState ribi::pylos::ToMustRemoveState(const Player& player)
 {
@@ -55,4 +32,10 @@ std::string ribi::pylos::ToStr(const MustRemoveState state)
 bool ribi::pylos::operator!(const MustRemoveState& state)
 {
   return state == MustRemoveState::no;
+}
+
+std::ostream& ribi::pylos::operator<<(std::ostream& os, const MustRemoveState s) noexcept
+{
+  os << ToStr(s);
+  return os;
 }

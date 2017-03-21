@@ -39,9 +39,6 @@ ribi::pylos::Coordinat::Coordinat(
     m_x(x),
     m_y(y)
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
   assert(IsValid(layer,x,y));
 }
 
@@ -50,9 +47,6 @@ ribi::pylos::Coordinat::Coordinat(const std::string& s)
     m_x{boost::lexical_cast<int>(s.at(3))},
     m_y{boost::lexical_cast<int>(s.at(5))}
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
   assert(s.size() == 7);
   assert(IsValid(m_layer,m_x,m_y));
 }
@@ -227,97 +221,6 @@ const std::vector<std::vector<ribi::pylos::Coordinat> > ribi::pylos::GetSquares(
   }
   return v;
 }
-
-#ifndef NDEBUG
-void ribi::pylos::Coordinat::Test() noexcept
-{
-  {
-    static bool tested = false;
-    if (tested) return;
-    tested = true;
-  }
-
-  //if (verbose) { TRACE("Test PylosCoordinat operators"); }
-  {
-    const Coordinat c1(0,2,2);
-    const Coordinat c2(0,2,3);
-    const Coordinat c3(0,3,2);
-    const Coordinat c1_too(0,2,2);
-    assert(c1 != c2);
-    assert(c1 != c3);
-    assert(c1 == c1_too);
-    assert(c2 != c3);
-  }
-  //if (verbose) { TRACE("Test Coordinat GetBelow function on (1,0,1)"); }
-  {
-    const std::vector<Coordinat> v
-      = GetBelow(Coordinat(1,0,1));
-    assert(v.size() == 4);
-    assert(std::find(v.begin(),v.end(),Coordinat(0,0,1))
-      != v.end());
-    assert(std::find(v.begin(),v.end(),Coordinat(0,0,2))
-      != v.end());
-    assert(std::find(v.begin(),v.end(),Coordinat(0,1,1))
-      != v.end());
-    assert(std::find(v.begin(),v.end(),Coordinat(0,1,2))
-      != v.end());
-  }
-  //if (verbose) { TRACE("Test Coordinat GetBelow function on (1,0,2)"); }
-  {
-    const std::vector<Coordinat> v
-      = GetBelow(Coordinat(1,0,2));
-    assert(v.size() == 4);
-    assert(std::find(v.begin(),v.end(),Coordinat(0,0,2))
-      != v.end());
-    assert(std::find(v.begin(),v.end(),Coordinat(0,0,3))
-      != v.end());
-    assert(std::find(v.begin(),v.end(),Coordinat(0,1,2))
-      != v.end());
-    assert(std::find(v.begin(),v.end(),Coordinat(0,1,3))
-      != v.end());
-  }
-  //if (verbose) { TRACE("Test Coordinat GetAbove function on (0,0,0)"); }
-  {
-    const std::vector<Coordinat> v
-      = GetAbove(Coordinat(0,0,0));
-    assert(v.size() == 1);
-    assert(std::find(v.begin(),v.end(),Coordinat(1,0,0))
-      != v.end());
-  }
-  //if (verbose) { TRACE("Test Coordinat GetAbove function on (0,1,2)"); }
-  {
-    const std::vector<Coordinat> v
-      = GetAbove(Coordinat(0,1,2));
-    assert(v.size() == 4);
-    assert(std::find(v.begin(),v.end(),Coordinat(1,0,1))
-      != v.end());
-    assert(std::find(v.begin(),v.end(),Coordinat(1,0,2))
-      != v.end());
-    assert(std::find(v.begin(),v.end(),Coordinat(1,1,1))
-      != v.end());
-    assert(std::find(v.begin(),v.end(),Coordinat(1,1,2))
-      != v.end());
-  }
-  //if (verbose) { TRACE("Test Coordinat GetAbove function on (1,2,1)"); }
-  {
-    const std::vector<Coordinat> v
-      = GetAbove(Coordinat(1,2,1));
-    assert(v.size() == 2);
-    assert(std::find(v.begin(),v.end(),Coordinat(2,1,0))
-      != v.end());
-    assert(std::find(v.begin(),v.end(),Coordinat(2,1,1))
-      != v.end());
-  }
-  //if (verbose) { TRACE("Test Coordinat GetAbove function on (2,0,0)"); }
-  {
-    const std::vector<Coordinat> v
-      = GetAbove(Coordinat(2,0,0));
-    assert(v.size() == 1);
-    assert(std::find(v.begin(),v.end(),Coordinat(3,0,0))
-      != v.end());
-  }
-}
-#endif
 
 bool ribi::pylos::operator==(const Coordinat& lhs, const Coordinat& rhs) noexcept
 {

@@ -1,23 +1,3 @@
-//---------------------------------------------------------------------------
-/*
-pylos::Board, class for a Pylos/Phyraos board
-Copyright (C) 2010-2015 Richel Bilderbeek
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.If not, see <http://www.gnu.org/licenses/>.
-*/
-//---------------------------------------------------------------------------
-//From http://www.richelbilderbeek.nl/CppPylos.htm
-//---------------------------------------------------------------------------
 #ifndef PYLOSBOARD_H
 #define PYLOSBOARD_H
 
@@ -84,12 +64,6 @@ struct Board
   ///Valid states are empty, player1 and player2
   int Count(const PositionState state) const;
 
-  ///Create a BoardAdvanced
-  static std::unique_ptr<Board> CreateAdvancedBoard() noexcept;
-
-  ///Create a BoardBasic
-  static std::unique_ptr<Board> CreateBasicBoard() noexcept;
-
   ///Do performs a move in Pylos notation
   void Do(const std::string& s, const Player player);
 
@@ -115,9 +89,6 @@ struct Board
 
   ///Return the possible winner
   Winner GetWinner() const noexcept;
-
-  ///PlayRandomPylosGame plays a random Pylos game and returns the winner.
-  static Winner PlayRandomPylosGame(const boost::shared_ptr<Board>& board_original = boost::shared_ptr<Board>()) noexcept;
 
   ///Remove removes one or two marbles.
   void Remove(const std::vector<Coordinat>& v, const Player player);
@@ -172,11 +143,6 @@ struct Board
 
   ///CreateLayer creates an empty layer.
   const Layer CreateLayer(const int sz) const;
-
-  #ifndef NDEBUG
-  ///Test this class
-  static void Test() noexcept;
-  #endif
 
   //Friends
   //friend void boost::checked_delete<>(Board* x);
@@ -246,6 +212,15 @@ struct BoardBasic final : public Board
 ///A BoardBeginner lets a player remove one or two marbles when
 ///- never
 
+
+///Create a BoardAdvanced
+std::unique_ptr<Board> CreateAdvancedBoard() noexcept;
+
+///Create a BoardBasic
+std::unique_ptr<Board> CreateBasicBoard() noexcept;
+
+///PlayRandomPylosGame plays a random Pylos game and returns the winner.
+Winner PlayRandomPylosGame(const boost::shared_ptr<Board>& board_original = boost::shared_ptr<Board>()) noexcept;
 
 bool operator==(const Board& lhs, const Board& rhs) noexcept;
 bool operator!=(const Board& lhs, const Board& rhs) noexcept;

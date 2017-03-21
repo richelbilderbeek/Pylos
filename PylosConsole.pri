@@ -1,6 +1,3 @@
-INCLUDEPATH += \
-    ../Pylos
-
 SOURCES += \
     $$PWD/pylosmenudialog.cpp
 

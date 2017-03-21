@@ -4,7 +4,7 @@
 
 using namespace ribi::pylos;
 
-BOOST_AUTO_TEST_CASE(maziak_menu_dialog_get_info)
+BOOST_AUTO_TEST_CASE(pylos_menu_dialog_get_info)
 {
   MenuDialog d;
   BOOST_CHECK_NO_THROW(d.GetAbout());

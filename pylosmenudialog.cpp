@@ -32,7 +32,7 @@ int ribi::pylos::MenuDialog::ExecuteSpecific(const std::vector<std::string>& arg
   }
 
   const boost::shared_ptr<Game> game {
-    Game::CreateBasicGame()
+    CreateBasicGame()
   };
 
   std::cout

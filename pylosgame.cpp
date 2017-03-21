@@ -1,23 +1,3 @@
-//---------------------------------------------------------------------------
-/*
-pylos::Game, class for a game of Pylos/Phyraos
-Copyright (C) 2010-2015 Richel Bilderbeek
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.If not, see <http://www.gnu.org/licenses/>.
-*/
-//---------------------------------------------------------------------------
-//From http://www.richelbilderbeek.nl/CppPylos.htm
-//---------------------------------------------------------------------------
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 
@@ -44,9 +24,6 @@ ribi::pylos::Game::Game(const Game& rhs)
     m_current_player(rhs.m_current_player),
     m_move_history(rhs.m_move_history)
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
   assert(m_board != rhs.m_board);
   assert(m_current_move != rhs.m_current_move);
 }
@@ -57,9 +34,6 @@ ribi::pylos::Game::Game(const boost::shared_ptr<Board> &board)
     m_current_player(Player::player1),
     m_move_history{}
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
   assert(m_board);
 }
 
@@ -127,15 +101,15 @@ void ribi::pylos::Game::Do(const pylos::Move& m)
   TogglePlayer();
 }
 
-boost::shared_ptr<ribi::pylos::Game> ribi::pylos::Game::CreateAdvancedGame()
+boost::shared_ptr<ribi::pylos::Game> ribi::pylos::CreateAdvancedGame()
 {
-  boost::shared_ptr<Board> board(Board::CreateAdvancedBoard());
+  boost::shared_ptr<Board> board(CreateAdvancedBoard());
   return boost::shared_ptr<Game>(new Game(board));
 }
 
-boost::shared_ptr<ribi::pylos::Game> ribi::pylos::Game::CreateBasicGame()
+boost::shared_ptr<ribi::pylos::Game> ribi::pylos::CreateBasicGame()
 {
-  boost::shared_ptr<Board> board(Board::CreateBasicBoard());
+  boost::shared_ptr<Board> board(CreateBasicBoard());
   return boost::shared_ptr<Game>(new Game(board));
 }
 
@@ -175,7 +149,7 @@ ribi::pylos::MustRemoveState ribi::pylos::Game::GetMustRemove() const noexcept
   return m_current_move->GetMustRemove();
 }
 
-ribi::pylos::Winner ribi::pylos::Game::PlayRandomGame(const boost::shared_ptr<Board>& board)
+ribi::pylos::Winner ribi::pylos::PlayRandomGame(const boost::shared_ptr<Board>& board)
 {
   boost::shared_ptr<Game> p;
   if (board)
@@ -185,9 +159,9 @@ ribi::pylos::Winner ribi::pylos::Game::PlayRandomGame(const boost::shared_ptr<Bo
   else
   {
     if ((std::rand() >> 4) % 2)
-      p.reset(new Game(Board::CreateAdvancedBoard()));
+      p.reset(new Game(CreateAdvancedBoard()));
     else
-      p.reset(new Game(Board::CreateBasicBoard()));
+      p.reset(new Game(CreateBasicBoard()));
   }
   while (1)
   {
@@ -310,412 +284,6 @@ void ribi::pylos::Game::Set(const Coordinat& c)
     TogglePlayer();
   }
 }
-
-#ifndef NDEBUG
-void ribi::pylos::Game::Test() noexcept
-{
-  {
-    static bool tested = false;
-    if (tested) return;
-    tested = true;
-  }
-  const int testing_depth = 1;
-
-  //if (verbose) { TRACE("Test ribi::pylos::Game::operator== for different game types"); }
-  {
-    boost::shared_ptr<Game> a = CreateAdvancedGame();
-    boost::shared_ptr<Game> b = CreateBasicGame();
-    assert(*a != *b);
-    a->Set(Coordinat("(0,0,0)"));
-    assert(*a != *b);
-    b->Do("(0,0,0)");
-    assert(*a != *b);
-  }
-  //if (verbose) { TRACE("Test ribi::pylos::Game::operator== for same game types"); }
-  {
-    boost::shared_ptr<Game> a = CreateAdvancedGame();
-    boost::shared_ptr<Game> b = CreateAdvancedGame();
-    assert(*a == *b);
-    a->Do("(0,0,0)");
-    assert(*a != *b);
-    b->Do("(0,0,0)");
-    assert(*a == *b);
-  }
-  //if (verbose) { TRACE("Test basic Game dynamics using Set and Remove"); }
-  {
-    // 1
-    // 1
-    // 1 22
-    // 1 22
-    // Only advanced game must detect player 1's line
-    // Both games must detect player 2's square
-    boost::shared_ptr<Game> a = CreateAdvancedGame();
-    boost::shared_ptr<Game> b = CreateBasicGame();
-    assert(*a != *b);
-    assert(a->GetCurrentTurn() == Player::player1);
-    assert(b->GetCurrentTurn() == Player::player1);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-
-    a->Set(Coordinat("(0,0,0)"));
-    b->Set(Coordinat("(0,0,0)"));
-    assert(a->GetCurrentTurn() == Player::player2);
-    assert(b->GetCurrentTurn() == Player::player2);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    a->Set(Coordinat("(0,3,0)"));
-    b->Set(Coordinat("(0,3,0)"));
-    assert(a->GetCurrentTurn() == Player::player1);
-    assert(b->GetCurrentTurn() == Player::player1);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-
-    a->Set(Coordinat("(0,0,1)"));
-    b->Set(Coordinat("(0,0,1)"));
-    assert(a->GetCurrentTurn() == Player::player2);
-    assert(b->GetCurrentTurn() == Player::player2);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    a->Set(Coordinat("(0,2,0)"));
-    b->Set(Coordinat("(0,2,0)"));
-    assert(a->GetCurrentTurn() == Player::player1);
-    assert(b->GetCurrentTurn() == Player::player1);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-
-    a->Set(Coordinat("(0,0,2)"));
-    b->Set(Coordinat("(0,0,2)"));
-    assert(a->GetCurrentTurn() == Player::player2);
-    assert(b->GetCurrentTurn() == Player::player2);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    a->Set(Coordinat("(0,2,1)"));
-    b->Set(Coordinat("(0,2,1)"));
-    assert(a->GetCurrentTurn() == Player::player1);
-    assert(b->GetCurrentTurn() == Player::player1);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-
-    //BoardAdvanced responds to the creation of a line
-    a->Set(Coordinat("(0,0,3)")); //Line
-    b->Set(Coordinat("(0,0,3)")); //Line
-    assert(a->GetCurrentTurn() == Player::player1); //No toggle
-    assert(b->GetCurrentTurn() == Player::player2); //Toggle
-    assert( a->GetCurrentMove()->GetMustRemove() != MustRemoveState::no);
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    assert( a->CanRemove(std::vector<Coordinat>(1,Coordinat("(0,0,0)"))));
-    assert(!b->CanRemove(std::vector<Coordinat>(1,Coordinat("(0,0,0)"))));
-    a->Remove(std::vector<Coordinat>(1,Coordinat("(0,0,0)")));
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    assert(a->GetCurrentTurn() == Player::player2); //Toggle
-    assert(b->GetCurrentTurn() == Player::player2);
-
-    //BoardAdvanced and BoardBasic respond to the creation of a square
-    a->Set(Coordinat("(0,3,1)")); //Square
-    b->Set(Coordinat("(0,3,1)")); //Square
-    assert(a->GetCurrentTurn() == Player::player2); //No toggle
-    assert(b->GetCurrentTurn() == Player::player2); //No toggle
-    assert(a->GetCurrentMove()->GetMustRemove() != MustRemoveState::no);
-    assert(b->GetCurrentMove()->GetMustRemove() != MustRemoveState::no);
-    assert(a->CanRemove(std::vector<Coordinat>(1,Coordinat("(0,3,0)"))));
-    assert(b->CanRemove(std::vector<Coordinat>(1,Coordinat("(0,3,0)"))));
-    a->Remove(std::vector<Coordinat>(1,Coordinat("(0,3,0)")));
-    b->Remove(std::vector<Coordinat>(1,Coordinat("(0,3,0)")));
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    assert(a->GetCurrentTurn() == Player::player1);
-    assert(b->GetCurrentTurn() == Player::player1);
-  }
-  //if (verbose) { TRACE("Test ribi::pylos::Game::Clone of GameBasic"); }
-  {
-    boost::shared_ptr<Game> a = CreateBasicGame();
-    boost::shared_ptr<Game> b(new Game(*a));
-    boost::shared_ptr<Game> c = CreateAdvancedGame();
-    assert(*a == *b);
-    assert(*a != *c);
-    a->Set(Coordinat("(0,0,0)"));
-    assert(*a != *b);
-    assert(*a != *c);
-    b->Set(Coordinat("(0,0,0)"));
-    assert(*a == *b);
-    assert(*a != *c);
-    c->Set(Coordinat("(0,0,0)"));
-    assert(*a != *c);
-    assert(*b != *c);
-  }
-  //if (verbose) { TRACE("Test ribi::pylos::Game::Clone of GameAdvanced"); }
-  {
-    boost::shared_ptr<Game> a = CreateAdvancedGame();
-    boost::shared_ptr<Game> b(new Game(*a));
-    boost::shared_ptr<Game> c = CreateBasicGame();
-    assert(*a == *b);
-    assert(*a != *c);
-    a->Set(Coordinat("(0,0,0)"));
-    assert(*a != *b);
-    assert(*a != *c);
-    b->Set(Coordinat("(0,0,0)"));
-    assert(*a == *b);
-    assert(*a != *c);
-  }
-  //if (verbose) { TRACE("Test Clone of played GameBasic"); }
-  {
-    boost::shared_ptr<Game> a = CreateBasicGame();
-    a->Set(Coordinat("(0,0,0)"));
-    const boost::shared_ptr<Game> b(new Game(*a));
-    assert(*a == *b);
-    b->Set(Coordinat("(0,1,0)"));
-    assert(*a != *b);
-  }
-  //if (verbose) { TRACE("Test Clone of played BoardAdvanced"); }
-  {
-    const boost::shared_ptr<Game> a = CreateAdvancedGame();
-    a->Set(Coordinat("(0,0,0)"));
-    const boost::shared_ptr<Game> b(new Game(*a));
-    assert(*a == *b);
-    b->Set(Coordinat("(0,1,0)"));
-    assert(*a != *b);
-  }
-  //if (verbose) { TRACE("Test basic Game dynamics using full moves"); }
-  {
-    // 1
-    // 1
-    // 1 22
-    // 1 22
-    // Only advanced game must detect player 1's line
-    // Both games must detect player 2's square
-    boost::shared_ptr<Game> a = CreateAdvancedGame();
-    boost::shared_ptr<Game> b = CreateBasicGame();
-    assert(*a != *b);
-    assert(a->GetCurrentTurn() == Player::player1);
-    assert(b->GetCurrentTurn() == Player::player1);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    a->Do(Move("(0,0,0)"));
-    b->Do(Move("(0,0,0)"));
-    assert(a->GetCurrentTurn() == Player::player2);
-    assert(b->GetCurrentTurn() == Player::player2);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    a->Do(Move("(0,3,0)"));
-    b->Do(Move("(0,3,0)"));
-    assert(a->GetCurrentTurn() == Player::player1);
-    assert(b->GetCurrentTurn() == Player::player1);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-
-    a->Do(Move("(0,0,1)"));
-    b->Do(Move("(0,0,1)"));
-    assert(a->GetCurrentTurn() == Player::player2);
-    assert(b->GetCurrentTurn() == Player::player2);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    a->Do(Move("(0,2,0)"));
-    b->Do(Move("(0,2,0)"));
-    assert(a->GetCurrentTurn() == Player::player1);
-    assert(b->GetCurrentTurn() == Player::player1);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-
-    a->Do(Move("(0,0,2)"));
-    b->Do(Move("(0,0,2)"));
-    assert(a->GetCurrentTurn() == Player::player2);
-    assert(b->GetCurrentTurn() == Player::player2);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    a->Do(Move("(0,2,1)"));
-    b->Do(Move("(0,2,1)"));
-    assert(a->GetCurrentTurn() == Player::player1);
-    assert(b->GetCurrentTurn() == Player::player1);
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-
-    //BoardAdvanced responds to the creation of a line
-    assert(!a->CanDo("(0,0,3)"));
-    assert(a->CanDo("(0,0,3) !(0,0,0)"));
-    assert(a->CanDo("(0,0,3) !(0,0,1)"));
-    assert(a->CanDo("(0,0,3) !(0,0,2)"));
-    assert(a->CanDo("(0,0,3) !(0,0,3)"));
-    assert(a->CanDo("(0,0,3) !(0,0,0) !(0,0,1)"));
-    assert(a->CanDo("(0,0,3) !(0,0,0) !(0,0,2)"));
-    assert(a->CanDo("(0,0,3) !(0,0,0) !(0,0,3)"));
-    assert(a->CanDo("(0,0,3) !(0,0,1) !(0,0,0)"));
-    assert(a->CanDo("(0,0,3) !(0,0,1) !(0,0,2)"));
-    assert(a->CanDo("(0,0,3) !(0,0,1) !(0,0,3)"));
-    assert(a->CanDo("(0,0,3) !(0,0,2) !(0,0,0)"));
-    assert(a->CanDo("(0,0,3) !(0,0,2) !(0,0,1)"));
-    assert(a->CanDo("(0,0,3) !(0,0,2) !(0,0,3)"));
-    assert(a->CanDo("(0,0,3) !(0,0,3) !(0,0,0)"));
-    assert(a->CanDo("(0,0,3) !(0,0,3) !(0,0,1)"));
-    assert(a->CanDo("(0,0,3) !(0,0,3) !(0,0,2)"));
-    assert(!a->CanDo("(0,0,3) !(0,0,0) !(0,0,0)"));
-    assert(!a->CanDo("(0,0,3) !(0,0,1) !(0,0,1)"));
-    assert(!a->CanDo("(0,0,3) !(0,0,2) !(0,0,2)"));
-    assert(!a->CanDo("(0,0,3) !(0,0,3) !(0,0,3)"));
-    assert(b->CanDo("(0,0,3)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,0)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,1)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,2)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,3)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,0) !(0,0,1)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,0) !(0,0,2)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,0) !(0,0,3)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,1) !(0,0,0)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,1) !(0,0,2)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,1) !(0,0,3)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,2) !(0,0,0)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,2) !(0,0,1)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,2) !(0,0,3)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,3) !(0,0,0)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,3) !(0,0,1)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,3) !(0,0,2)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,0) !(0,0,0)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,1) !(0,0,1)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,2) !(0,0,2)"));
-    assert(!b->CanDo("(0,0,3) !(0,0,3) !(0,0,3)"));
-    a->Do(Move("(0,0,3) !(0,0,0)")); //Line
-    b->Do(Move("(0,0,3)")); //Line
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    assert(a->GetCurrentTurn() == Player::player2);
-    assert(b->GetCurrentTurn() == Player::player2);
-
-    //BoardAdvanced and BoardBasic respond to the creation of a square
-    a->Set(Coordinat("(0,3,1)")); //Square
-    b->Set(Coordinat("(0,3,1)")); //Square
-    assert(a->GetCurrentTurn() == Player::player2); //No toggle
-    assert(b->GetCurrentTurn() == Player::player2); //No toggle
-    assert(a->GetCurrentMove()->GetMustRemove() != MustRemoveState::no);
-    assert(b->GetCurrentMove()->GetMustRemove() != MustRemoveState::no);
-    assert(a->CanRemove(std::vector<Coordinat>(1,Coordinat("(0,3,0)"))));
-    assert(b->CanRemove(std::vector<Coordinat>(1,Coordinat("(0,3,0)"))));
-    a->Remove(std::vector<Coordinat>(1,Coordinat("(0,3,0)")));
-    b->Remove(std::vector<Coordinat>(1,Coordinat("(0,3,0)")));
-    assert(!a->GetCurrentMove()->GetMustRemove());
-    assert(!b->GetCurrentMove()->GetMustRemove());
-    assert(a->GetCurrentTurn() == Player::player1);
-    assert(b->GetCurrentTurn() == Player::player1);
-  }
-
-
-  //if (verbose) { TRACE("Test Game history"); }
-  {
-    // 12..
-    // 34..
-    // 56..
-    // 7...
-    //Test that in basic play, no marbles must be removed. Test that in advanced play, marbles must be removed.
-    boost::shared_ptr<Game> a = CreateAdvancedGame();
-    boost::shared_ptr<Game> b = CreateBasicGame();
-    assert(a->GetMoveHistory().empty());
-    assert(b->GetMoveHistory().empty());
-    const std::vector<Move> v =
-      {
-        Move("(0,0,0)"),
-        Move("(0,1,0)"),
-        Move("(0,0,1)"),
-        Move("(0,1,1)"),
-        Move("(1,0,0)")
-      };
-    const std::size_t j = v.size();
-    for (std::size_t i = 0; i!=j; ++i)
-    {
-      assert(a->GetMoveHistory().size() == i);
-      assert(b->GetMoveHistory().size() == i);
-      a->Do(v[i]);
-      b->Do(v[i]);
-      assert(a->GetMoveHistory()[i] == v[i]);
-      assert(b->GetMoveHistory()[i] == v[i]);
-    }
-  }
-
-
-  //if (verbose) { TRACE("Game test #1"); }
-  {
-    // 12..
-    // 34..
-    // 56..
-    // 7...
-    //Test that in basic play, no marbles must be removed. Test that in advanced play, marbles must be removed.
-    boost::shared_ptr<Game> a = CreateAdvancedGame();
-    boost::shared_ptr<Game> b = CreateBasicGame();
-    a->Do(Move("(0,0,0)")); //1
-    b->Do(Move("(0,0,0)"));
-    a->Do(Move("(0,1,0)")); //2
-    b->Do(Move("(0,1,0)"));
-    a->Do(Move("(0,0,1)")); //3
-    b->Do(Move("(0,0,1)"));
-    a->Do(Move("(0,1,1)")); //4
-    b->Do(Move("(0,1,1)"));
-    a->Do(Move("(0,0,2)")); //5
-    b->Do(Move("(0,0,2)"));
-    a->Do(Move("(0,1,2)")); //6
-    b->Do(Move("(0,1,2)"));
-    assert(!a->CanDo(Move("(0,0,3)"))); //7
-    assert( a->CanDo(Move("(0,0,3) !(0,0,3)"))); //7
-    assert( b->CanDo(Move("(0,0,3)")));
-  }
-  //if (verbose) { TRACE("Game test #2"); }
-  {
-    // ....
-    // ....
-    // ....
-    // ....
-    //Test that in basic play, no marbles must be removed. Test that in advanced play, marbles must be removed.
-    boost::shared_ptr<Game> a = CreateAdvancedGame();
-    boost::shared_ptr<Game> b = CreateBasicGame();
-    const std::vector<Move> v =
-      {
-        Move("(0,0,0)"), Move("(0,0,1)"), Move("(0,1,1)"), Move("(0,1,0)"),
-        Move("(1,0,0)"), Move("(0,0,2)"), Move("(0,1,2)"), Move("(0,2,0)"),
-        Move("(0,2,2)"), Move("(0,3,0)")
-      };
-    std::for_each(v.begin(),v.end(),
-      [a,b](const Move& m)
-      {
-        assert(a->CanDo(m));
-        assert(b->CanDo(m));
-        a->Do(m);
-        b->Do(m);
-      }
-    );
-    assert(!a->CanDo(Move("(0,2,1)")));
-    assert(!a->CanDo(Move("(0,2,1) !(0,0,0)")));
-    assert( a->CanDo(Move("(0,2,1) !(1,0,0)")));
-    assert( a->CanDo(Move("(0,2,1) !(0,0,0) !(1,0,0)")));
-    assert( a->CanDo(Move("(0,2,1) !(1,0,0) !(0,0,0)")));
-    assert(!a->CanDo(Move("(0,2,1) !(0,1,1)")));
-    assert( a->CanDo(Move("(0,2,1) !(0,1,1) !(1,0,0)")));
-    assert( a->CanDo(Move("(0,2,1) !(1,0,0) !(0,1,1)")));
-
-    assert(!b->CanDo(Move("(0,2,1)")));
-    assert(!b->CanDo(Move("(0,2,1) !(0,0,0)")));
-    assert( b->CanDo(Move("(0,2,1) !(1,0,0)")));
-    assert( b->CanDo(Move("(0,2,1) !(0,0,0) !(1,0,0)")));
-    assert( b->CanDo(Move("(0,2,1) !(1,0,0) !(0,0,0)")));
-    assert(!b->CanDo(Move("(0,2,1) !(0,1,1)")));
-    assert( b->CanDo(Move("(0,2,1) !(0,1,1) !(1,0,0)")));
-    assert( b->CanDo(Move("(0,2,1) !(1,0,0) !(0,1,1)")));
-  }
-  if (testing_depth < 2) return;
-
-  //if (verbose) { TRACE("Playing 5 random basic Pylos games"); }
-  for (int i=0; i!=5; ++i)
-  {
-    ribi::pylos::Game::PlayRandomGame(pylos::Board::CreateBasicBoard());
-  }
-  //if (verbose) { TRACE("Playing 5 random advanced Pylos games"); }
-  for (int i=0; i!=5; ++i)
-  {
-    ribi::pylos::Game::PlayRandomGame(pylos::Board::CreateAdvancedBoard());
-  }
-  //if (verbose) { TRACE("Playing 5 random Pylos games"); }
-  for (int i=0; i!=5; ++i)
-  {
-    ribi::pylos::Game::PlayRandomGame();
-  }
-}
-#endif
 
 void ribi::pylos::Game::TogglePlayer()
 {

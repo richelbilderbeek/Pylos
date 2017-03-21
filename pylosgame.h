@@ -1,23 +1,3 @@
-//---------------------------------------------------------------------------
-/*
-pylos::Game, class for a game of Pylos/Phyraos
-Copyright (C) 2010-2015 Richel Bilderbeek
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.If not, see <http://www.gnu.org/licenses/>.
-*/
-//---------------------------------------------------------------------------
-//From http://www.richelbilderbeek.nl/CppPylos.htm
-//---------------------------------------------------------------------------
 #ifndef PYLOSGAME_H
 #define PYLOSGAME_H
 
@@ -79,12 +59,6 @@ struct Game
     const Coordinat& from,
     const Coordinat& to) const;
 
-  ///Create an advanced game at its initial position
-  static boost::shared_ptr<Game> CreateAdvancedGame();
-
-  ///Create a basic game at its initial position
-  static boost::shared_ptr<Game> CreateBasicGame();
-
   ///Do performs a move in Pylos notation
   void Do(const std::string& s);
 
@@ -127,10 +101,6 @@ struct Game
   ///Load loads a game in Pylos notation
   //void Load(const std::string& s) = 0;
 
-  ///PlayRandomPylosGame plays a random Pylos game and returns the winner.
-  static Winner PlayRandomGame(const boost::shared_ptr<Board>& board = boost::shared_ptr<Board>());
-
-
   ///Remove lets the current player remove one or two marbles
   void Remove(const std::vector<Coordinat>& v);
 
@@ -170,11 +140,6 @@ struct Game
   ///Remove lets the current player remove one marble.
   void Remove(const Coordinat& c);
 
-  #ifndef NDEBUG
-  ///Test the Game class
-  static void Test() noexcept;
-  #endif
-
   ///TogglePlayer toggles between player1 and player2 and saves the current
   ///move to the move history
   void TogglePlayer();
@@ -190,11 +155,19 @@ std::ostream& operator<<(std::ostream& os,const Game& p);
 ///will be successfull
 bool CanLoadPylos(const std::string& filename);
 
+///Create an advanced game at its initial position
+boost::shared_ptr<Game> CreateAdvancedGame();
+
+///Create a basic game at its initial position
+boost::shared_ptr<Game> CreateBasicGame();
+
 ///LoadPylos loads a Pylos game from file
 boost::shared_ptr<Game> LoadPylos(const std::string& filename);
 
-} //~namespace Pylos
+///PlayRandomPylosGame plays a random Pylos game and returns the winner.
+Winner PlayRandomGame(const boost::shared_ptr<Board>& board = boost::shared_ptr<Board>());
 
+} //~namespace Pylos
 } //~namespace ribi
 
 #endif // PYLOSGAME_H

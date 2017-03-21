@@ -1,25 +1,3 @@
-//---------------------------------------------------------------------------
-/*
-pylos::Move, class for a Pylos/Phyraos move
-Copyright (C) 2010-2015 Richel Bilderbeek
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.If not, see <http://www.gnu.org/licenses/>.
-*/
-//---------------------------------------------------------------------------
-//From http://www.richelbilderbeek.nl/CppPylos.htm
-//---------------------------------------------------------------------------
-
-
 #include "pylosmove.h"
 
 #include <algorithm>
@@ -28,16 +6,11 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include "pyloscoordinat.h"
 
-
-
-
 ribi::pylos::Move::Move()
   : m_move{},
     m_remove{}
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
+
 }
 
 ribi::pylos::Move::Move(
@@ -46,10 +19,6 @@ ribi::pylos::Move::Move(
   : m_move{moving},
     m_remove{removing}
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
-
   assert(!m_move.empty()
     && "In every move a marble must be placed or transferred");
   assert(m_move.size() <= 2);
@@ -61,10 +30,6 @@ ribi::pylos::Move::Move(const std::string& s)
   : m_move{},
     m_remove{}
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
-
   //Read first coordinat
   assert(
        s.size() == 7
@@ -125,56 +90,6 @@ bool ribi::pylos::Move::IsValid() const noexcept
     && m_move.size() <= 2
     && m_remove.size() <= 2;
 }
-
-#ifndef NDEBUG
-void ribi::pylos::Move::Test() noexcept
-{
-  {
-    static bool tested = false;
-    if (tested) return;
-    tested = true;
-  }
-  {
-    Coordinat(0,0,0);
-  }
-  {
-    pylos::Move m;
-    assert(!m.IsValid() && "An empty move is invalid");
-    pylos::Move n;
-    assert(m == n);
-    m.m_move.push_back(Coordinat(0,0,0));
-    n.m_move.push_back(Coordinat(0,0,0));
-    assert(m == n);
-  }
-  {
-    //Valid Moves
-    const std::vector<std::string> v
-    =
-      {
-        "(0,0,0)",
-        "(0,0,0) !(0,0,0)",
-        "(0,0,0) !(0,0,0) !(0,0,0)",
-        "(0,0,0)->(0,0,0)",
-        "(0,0,0)->(0,0,0) !(0,0,0)",
-        "(0,0,0)->(0,0,0) !(0,0,0) !(0,0,0)",
-      };
-    std::for_each(v.begin(),v.end(),
-      [](const std::string& s)
-      {
-        try
-        {
-          const Move m(s);
-          //OK
-        }
-        catch (std::exception& e)
-        {
-          assert(!"Should not get here");
-        }
-      }
-    );
-  }
-}
-#endif
 
 std::string ribi::pylos::Move::ToStr() const noexcept
 {

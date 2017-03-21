@@ -1,5 +1,4 @@
-INCLUDEPATH += \
-    ../Pylos
+INCLUDEPATH += $$PWD
 
 SOURCES += \
     $$PWD/pylosboard.cpp \
