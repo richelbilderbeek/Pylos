@@ -1,7 +1,7 @@
 sudo: true
 language: cpp
 compiler: gcc
-dist: trusty
+dist: bionic
 
 # Boost
 addons: 
