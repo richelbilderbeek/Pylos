@@ -24,7 +24,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #include <string>
 
-#pragma GCC diagnostic push
+
 
 
 
@@ -32,7 +32,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 //#include <boost/shared_ptr.hpp>
 #include "qtpylosgamewidget.h"
-#pragma GCC diagnostic pop
+
 
 namespace Ui {
   class QtPylosMainDialog;

@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#pragma GCC diagnostic push
+
 
 #include <boost/checked_delete.hpp>
 #include <boost/shared_ptr.hpp>
@@ -12,7 +12,7 @@
 #include "pyloswinner.h"
 #include "pylosplayer.h"
 #include "pylospositionstate.h"
-#pragma GCC diagnostic pop
+
 
 namespace ribi {
 

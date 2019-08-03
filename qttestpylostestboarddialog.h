@@ -21,7 +21,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #ifndef QTTESTPYLOSTESTBOARDDIALOG_H
 #define QTTESTPYLOSTESTBOARDDIALOG_H
 
-#pragma GCC diagnostic push
+
 
 
 
@@ -32,7 +32,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "pylosmove.h"
 #include "pylosboard.h"
 #include "qtpylosboardwidget.h"
-#pragma GCC diagnostic pop
+
 
 struct QLabel;
 struct QTimer;

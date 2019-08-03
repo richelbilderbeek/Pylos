@@ -1,4 +1,4 @@
-#pragma GCC diagnostic push
+
 
 
 
@@ -10,7 +10,7 @@
 #include "pylosmove.h"
 
 #include "qttestpylosmenudialog.h"
-#pragma GCC diagnostic pop
+
 
 ///TODO
 ///- allow a Player to pass turn when he/she has no marble

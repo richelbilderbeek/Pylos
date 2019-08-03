@@ -18,14 +18,14 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 //---------------------------------------------------------------------------
 //From http://www.richelbilderbeek.nl/ToolTestPylos.htm
 //---------------------------------------------------------------------------
-#pragma GCC diagnostic push
+
 
 #include "qtpylossprites.h"
 #include <cassert>
 #include <boost/numeric/conversion/cast.hpp>
 #include <QBitmap>
 #include "pylosmove.h"
-#pragma GCC diagnostic pop
+
 
 ribi::pylos::QtSprites::QtSprites(
   const int board_width,

@@ -21,12 +21,12 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #ifndef QTTESTPYLOSMENUDIALOG_H
 #define QTTESTPYLOSMENUDIALOG_H
 
-#pragma GCC diagnostic push
+
 
 
 
 #include "qthideandshowdialog.h"
-#pragma GCC diagnostic pop
+
 
 namespace Ui {
   class QtTestPylosMenuDialog;

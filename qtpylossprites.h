@@ -21,11 +21,11 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #ifndef QTPYLOSSPRITES_H
 #define QTPYLOSSPRITES_H
 
-#pragma GCC diagnostic push
+
 
 #include <boost/array.hpp>
 #include <QPixmap>
-#pragma GCC diagnostic pop
+
 
 namespace ribi {
 namespace pylos {

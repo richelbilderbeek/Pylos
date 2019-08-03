@@ -23,7 +23,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 
-#pragma GCC diagnostic push
+
 
 
 #include <boost/tuple/tuple.hpp>
@@ -33,7 +33,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include "qtpyloswidget.h"
 #include "pylosboard.h"
-#pragma GCC diagnostic pop
+
 
 struct QPaintEvent;
 

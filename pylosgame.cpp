@@ -1,4 +1,4 @@
-#pragma GCC diagnostic push
+
 
 
 #include "pylosgame.h"
@@ -16,7 +16,7 @@
 #include "pylosmove.h"
 
 
-#pragma GCC diagnostic pop
+
 
 ribi::pylos::Game::Game(const Game& rhs)
   : m_board(rhs.m_board->Clone()),

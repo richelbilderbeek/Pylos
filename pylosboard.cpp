@@ -1,4 +1,4 @@
-#pragma GCC diagnostic push
+
 
 #include "pylosboard.h"
 
@@ -16,7 +16,7 @@
 #error pylos::Game must not be defined for a pylos::Board
 #endif
 
-#pragma GCC diagnostic pop
+
 
 ribi::pylos::Board::Board() noexcept
   : m_board(CreateEmptyBoard())

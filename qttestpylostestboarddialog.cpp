@@ -18,7 +18,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 //---------------------------------------------------------------------------
 //From http://www.richelbilderbeek.nl/ToolTestPylos.htm
 //---------------------------------------------------------------------------
-#pragma GCC diagnostic push
+
 
 
 
@@ -43,7 +43,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtpylosboardwidget.h"
 #include "ui_qttestpylostestboarddialog.h"
 
-#pragma GCC diagnostic pop
+
 
 #ifdef PYLOSGAME_H
 #error Pylos::Game must not be used by a QtPylosTestBoard

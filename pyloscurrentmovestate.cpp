@@ -1,11 +1,11 @@
-#pragma GCC diagnostic push
+
 
 #include "pyloscurrentmovestate.h"
 
 #include <cassert>
 #include <iostream>
 
-#pragma GCC diagnostic pop
+
 
 ribi::pylos::CurrentMoveState::CurrentMoveState() noexcept
   : m_current_move{},

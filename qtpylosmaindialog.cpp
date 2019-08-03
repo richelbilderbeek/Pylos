@@ -18,7 +18,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 //---------------------------------------------------------------------------
 //From http://www.richelbilderbeek.nl/GamePylos.htm
 //---------------------------------------------------------------------------
-#pragma GCC diagnostic push
+
 
 
 
@@ -36,7 +36,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtpyloswondialog.h"
 #include "ui_qtpylosmaindialog.h"
 
-#pragma GCC diagnostic pop
+
 
 ribi::pylos::QtPylosMainDialog::QtPylosMainDialog(
   const QtGameWidget pylos_widget,

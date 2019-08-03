@@ -21,13 +21,13 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #ifndef QTTESTPYLOSTESTGAMEDIALOG_H
 #define QTTESTPYLOSTESTGAMEDIALOG_H
 
-#pragma GCC diagnostic push
+
 
 
 
 #include <boost/shared_ptr.hpp>
 #include "qthideandshowdialog.h"
-#pragma GCC diagnostic pop
+
 
 struct QLabel;
 struct QTimer;

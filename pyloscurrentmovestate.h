@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#pragma GCC diagnostic push
+
 
 
 
@@ -12,7 +12,7 @@
 #include "pyloscoordinat.h"
 #include "pylosmove.h"
 #include "pylosmustremovestate.h"
-#pragma GCC diagnostic pop
+
 
 namespace ribi {
 

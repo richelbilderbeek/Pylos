@@ -23,14 +23,14 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 
-#pragma GCC diagnostic push
+
 
 
 #include <boost/tuple/tuple.hpp>
 #include <boost/shared_ptr.hpp>
 #include <QWidget>
 #include "qtpyloswidget.h"
-#pragma GCC diagnostic pop
+
 
 struct QPaintEvent;
 
