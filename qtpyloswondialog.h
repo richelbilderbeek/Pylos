@@ -22,7 +22,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #define QTPYLOSWONDIALOG
 
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
+
 #include "qthideandshowdialog.h"
 
 #include "pyloswinner.h"
